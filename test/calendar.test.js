@@ -44,7 +44,8 @@ describe('annotateMoonPhases', () => {
     for (let d = 10; d <= 20; d++) days.push(day(`2026-01-${d}`))
     days[0].moon = '🌑'
     const out = annotateMoonPhases(days)
-    expect(out[10].moonGlyph).toBe('🌓') // 朔後約 10 天接近上弦
+    expect(out[7].moonGlyph).toBe('🌓') // 上弦約在朔後 7.4 天
+    expect(out[10].moonGlyph).toBe('🌔') // 第 10 天已過上弦，為盈凸月
   })
 })
 
