@@ -123,3 +123,13 @@ footer { border-top: 1px solid #ddd8ca; padding-top: 0.8rem; font-size: 0.8rem; 
   .calendar td { height: 4.2rem; padding: 0.15rem 0.2rem; }
   .night { font-size: 0.55rem; }
 }
+
+.est-note {
+  background: #fff6e0;
+  border: 1px solid #e6d29a;
+  border-radius: 6px;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.85rem;
+  color: #7a6320;
+}
+.badge.est { background: #b28a2e; font-size: 0.7rem; vertical-align: middle; }
