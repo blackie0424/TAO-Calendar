@@ -1,0 +1,15 @@
+{
+  "name": "tao-calendar",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "達悟族夜曆網頁版 — 傳統夜曆與現行日曆對照，含月相與潮汐",
+  "scripts": {
+    "test": "vitest run",
+    "convert": "node scripts/convert.mjs"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.0",
+    "xlsx": "^0.18.5"
+  }
+}
