@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>達悟族夜曆 Tao Night Calendar — 2026</title>
+  <meta name="description" content="達悟族傳統夜曆與現行日曆對照，含每夜的夜名、月相與蘭嶼潮汐。資料以 Iraraley 朗島部落為準。" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header>
+    <h1>達悟族夜曆 <span class="en">Tao Night Calendar</span></h1>
+    <p class="subtitle">蘭嶼・Iraraley 朗島部落 — 2026 傳統夜曆與現行日曆對照</p>
+  </header>
+
+  <nav class="month-nav">
+    <button id="prev" aria-label="上一月">‹</button>
+    <h2 id="month-title"></h2>
+    <button id="next" aria-label="下一月">›</button>
+  </nav>
+
+  <p id="trad-spans" class="trad-spans"></p>
+
+  <main>
+    <table class="calendar" aria-label="月曆">
+      <thead>
+        <tr><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr>
+      </thead>
+      <tbody id="grid"></tbody>
+    </table>
+
+    <aside id="detail" class="detail" hidden></aside>
+  </main>
+
+  <section class="about">
+    <h3>關於夜曆</h3>
+    <p>
+      達悟族的曆法以「夜」為單位：每個月從新月（kabohen）起算，依月亮的形狀為每一夜命名，
+      滿月之夜稱 Tazanganay。月相直接決定潮汐的大小——朔、望前後潮差最大（大潮），
+      上弦、下弦前後潮差最小（小潮）——因此夜曆同時也是海上作業與潮間帶採集的行事依據。
+    </p>
+    <p class="pending">各月份與夜名的在地說明整理中，內容將由族人提供後陸續補上。</p>
+  </section>
+
+  <footer>
+    <p>資料來源：蘭嶼潮汐與日曆 2026（Iraraley 朗島部落）。達悟曆各部落略有差異，本站僅供參考。</p>
+  </footer>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

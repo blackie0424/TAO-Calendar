@@ -1,0 +1,125 @@
+:root {
+  --ink: #1c2b36;
+  --sea: #0e5c73;
+  --sand: #f7f4ec;
+  --spring: #d9534f;
+  --mid: #e8a33d;
+  --neap: #4a90d9;
+  font-family: "Noto Sans TC", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 1rem;
+  color: var(--ink);
+  background: var(--sand);
+}
+
+header h1 { margin: 0.2rem 0; color: var(--sea); }
+header .en { font-size: 0.6em; font-weight: 400; color: #6b7f8a; }
+.subtitle { margin-top: 0; color: #55676f; }
+
+.month-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+.month-nav h2 { min-width: 9rem; text-align: center; margin: 0.5rem 0; }
+.month-nav button {
+  font-size: 1.4rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 1px solid var(--sea);
+  border-radius: 50%;
+  background: white;
+  color: var(--sea);
+  cursor: pointer;
+}
+.month-nav button:disabled { opacity: 0.3; cursor: default; }
+
+.trad-spans { text-align: center; color: var(--sea); }
+
+.calendar {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.12);
+}
+.calendar th { background: var(--sea); color: white; padding: 0.4rem 0; font-weight: 500; }
+.calendar td {
+  height: 5.2rem;
+  vertical-align: top;
+  border: 1px solid #e3e0d6;
+  padding: 0.25rem 0.3rem;
+  cursor: pointer;
+  position: relative;
+}
+.calendar td:hover { background: #eef6f8; }
+.calendar td:empty { cursor: default; background: #fbfaf6; }
+
+.daynum { font-weight: 600; }
+.moon { float: right; }
+.night {
+  display: block;
+  font-size: 0.68rem;
+  color: #4d6570;
+  line-height: 1.15;
+  margin-top: 0.15rem;
+  word-break: break-word;
+}
+.evt { color: var(--spring); position: absolute; bottom: 0.15rem; right: 0.35rem; }
+
+td.today { outline: 2px solid var(--sea); outline-offset: -2px; }
+td.trad-start .daynum::after { content: " 月首"; font-size: 0.62rem; color: var(--spring); }
+
+td.tide-spring { border-bottom: 3px solid var(--spring); }
+td.tide-mid { border-bottom: 3px solid var(--mid); }
+td.tide-neap { border-bottom: 3px solid var(--neap); }
+
+.detail {
+  margin-top: 1rem;
+  background: white;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.12);
+}
+.detail h3 { margin-top: 0; }
+.detail-night { font-size: 1.05rem; }
+.moon-big { font-size: 1.5rem; margin-left: 0.4rem; }
+
+.badge {
+  display: inline-block;
+  color: white;
+  border-radius: 4px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.85rem;
+}
+.badge.tide-spring { background: var(--spring); }
+.badge.tide-mid { background: var(--mid); }
+.badge.tide-neap { background: var(--neap); }
+
+.tide-table { border-collapse: collapse; margin-top: 0.4rem; }
+.tide-table th, .tide-table td { border: 1px solid #dcd8cc; padding: 0.3rem 0.8rem; text-align: center; }
+.tide-table th { background: #eef2ee; font-weight: 500; }
+
+.about, footer {
+  margin-top: 1.5rem;
+  color: #45575f;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+.about h3 { color: var(--sea); }
+.pending { color: #8a7a55; }
+footer { border-top: 1px solid #ddd8ca; padding-top: 0.8rem; font-size: 0.8rem; }
+
+@media (max-width: 640px) {
+  .calendar td { height: 4.2rem; padding: 0.15rem 0.2rem; }
+  .night { font-size: 0.55rem; }
+}
