@@ -133,3 +133,33 @@ footer { border-top: 1px solid #ddd8ca; padding-top: 0.8rem; font-size: 0.8rem; 
   color: #7a6320;
 }
 .badge.est { background: #b28a2e; font-size: 0.7rem; vertical-align: middle; }
+
+.year-picker { text-align: center; padding: 2rem 0 1rem; }
+.year-picker h2 { color: var(--sea); }
+.year-btn {
+  font-size: 1.6rem;
+  margin: 0.5rem;
+  padding: 1rem 2.2rem;
+  border: 2px solid var(--sea);
+  border-radius: 10px;
+  background: white;
+  color: var(--sea);
+  cursor: pointer;
+  font-weight: 600;
+}
+.year-btn:hover { background: #eef6f8; }
+.year-tag {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #b28a2e;
+  margin-top: 0.2rem;
+}
+.back-link {
+  border: none;
+  background: none;
+  color: var(--sea);
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: underline;
+}

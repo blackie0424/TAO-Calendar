@@ -3,41 +3,63 @@ import { annotateMoonPhases, buildMonthGrid, traditionalMonthSpans } from './lib
 const TIDE_CLASS = { 大潮: 'tide-spring', 中潮: 'tide-mid', 小潮: 'tide-neap' }
 
 const YEARS = [2026, 2027]
-const state = { days: [], notes: {}, year: 2026, month: 1 }
+const state = { days: [], notes: {}, estimated: {}, year: null, month: 1 }
 
 async function main() {
   const files = await Promise.all(
     YEARS.map((y) => fetch(`data/${y}.json`).then((r) => r.json())),
   )
   state.days = annotateMoonPhases(files.flatMap((f) => f.days))
-  for (const f of files) if (f.note) state.notes[f.year] = f.note
-
-  const today = new Date()
-  if (YEARS.includes(today.getFullYear())) {
-    state.year = today.getFullYear()
-    state.month = today.getMonth() + 1
+  for (const f of files) {
+    if (f.note) state.notes[f.year] = f.note
+    state.estimated[f.year] = Boolean(f.estimated)
   }
 
   document.getElementById('prev').onclick = () => shiftMonth(-1)
   document.getElementById('next').onclick = () => shiftMonth(1)
+  document.getElementById('back-to-years').onclick = () => showYearPicker()
+
+  const buttons = document.getElementById('year-buttons')
+  for (const y of YEARS) {
+    const btn = document.createElement('button')
+    btn.className = 'year-btn'
+    btn.innerHTML = `${y}${state.estimated[y] ? '<span class="year-tag">推估版</span>' : ''}`
+    btn.onclick = () => pickYear(y)
+    buttons.appendChild(btn)
+  }
+
+  const fromHash = Number(location.hash.slice(1))
+  if (YEARS.includes(fromHash)) pickYear(fromHash)
+  else showYearPicker()
+}
+
+function pickYear(year) {
+  state.year = year
+  const today = new Date()
+  state.month = today.getFullYear() === year ? today.getMonth() + 1 : 1
+  location.hash = String(year)
+  document.getElementById('year-picker').hidden = true
+  document.getElementById('calendar-view').hidden = false
   render()
 }
 
+function showYearPicker() {
+  state.year = null
+  history.replaceState(null, '', location.pathname)
+  document.getElementById('year-picker').hidden = false
+  document.getElementById('calendar-view').hidden = true
+}
+
 function shiftMonth(delta) {
-  let { year, month } = state
-  month += delta
-  if (month < 1 && YEARS.includes(year - 1)) { year -= 1; month = 12 }
-  if (month > 12 && YEARS.includes(year + 1)) { year += 1; month = 1 }
-  state.year = year
-  state.month = Math.min(12, Math.max(1, month))
+  state.month = Math.min(12, Math.max(1, state.month + delta))
   render()
 }
 
 function render() {
   const { days, year, month } = state
   document.getElementById('month-title').textContent = `${year} 年 ${month} 月`
-  document.getElementById('prev').disabled = year === YEARS[0] && month === 1
-  document.getElementById('next').disabled = year === YEARS[YEARS.length - 1] && month === 12
+  document.getElementById('prev').disabled = month === 1
+  document.getElementById('next').disabled = month === 12
 
   const note = document.getElementById('est-note')
   note.hidden = !state.notes[year]
