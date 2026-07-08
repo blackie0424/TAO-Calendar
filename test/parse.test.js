@@ -17,8 +17,8 @@ describe('normalizeModernMonth', () => {
     expect(normalizeModernMonth('十二')).toBe(12)
   })
 
-  it('容忍注音「ㄧ」誤植為國字「一」', () => {
-    expect(normalizeModernMonth('ㄧ')).toBe(1)
+  it('注音「ㄧ」不再容忍 — 正本已統一為國字「一」（PR #1 決議），混入即報錯', () => {
+    expect(() => normalizeModernMonth('ㄧ')).toThrow()
   })
 
   it('未知值丟出錯誤', () => {
@@ -30,7 +30,7 @@ describe('normalizeModernMonth', () => {
 describe('toIsoDate', () => {
   it('組合年、中文月、日為 ISO 日期', () => {
     expect(toIsoDate(2026, '一', '1')).toBe('2026-01-01')
-    expect(toIsoDate(2026, 'ㄧ', '19')).toBe('2026-01-19')
+    expect(toIsoDate(2026, '十', '19')).toBe('2026-10-19')
     expect(toIsoDate(2026, '十二', '31')).toBe('2026-12-31')
   })
 
