@@ -163,3 +163,34 @@ footer { border-top: 1px solid #ddd8ca; padding-top: 0.8rem; font-size: 0.8rem; 
   font-size: 0.9rem;
   text-decoration: underline;
 }
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+.edit-count { font-size: 0.85rem; color: #b28a2e; }
+.export-btn, .edit-btn {
+  border: 1px solid var(--sea);
+  border-radius: 6px;
+  background: white;
+  color: var(--sea);
+  padding: 0.35rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.export-btn:hover, .edit-btn:hover { background: #eef6f8; }
+.badge.edited { background: #b28a2e; font-size: 0.7rem; vertical-align: middle; }
+.edited-mark { color: #b28a2e; position: absolute; bottom: 0.15rem; left: 0.35rem; font-size: 0.75rem; }
+.detail label { display: block; margin: 0.6rem 0; font-size: 0.9rem; color: #45575f; }
+.detail input, .detail textarea {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.45rem;
+  border: 1px solid #c9c4b4;
+  border-radius: 6px;
+  font: inherit;
+}
