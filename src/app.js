@@ -87,8 +87,7 @@ function render() {
     for (const d of week) {
       const td = document.createElement('td')
       if (d) {
-        td.className = TIDE_CLASS[d.tideState] ?? ''
-        td.classList.add(d.taoMonthIndex % 2 ? 'tao-odd' : 'tao-even')
+        td.className = d.taoMonthIndex % 2 ? 'tao-odd' : 'tao-even'
         if (d.date === todayIso) td.classList.add('today')
         if (tradStarts.has(d.date)) td.classList.add('trad-start')
         td.innerHTML = `
