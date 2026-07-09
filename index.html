@@ -10,27 +10,36 @@
 <body>
   <header>
     <h1>達悟族夜曆 <span class="en">Tao Night Calendar</span></h1>
-    <p class="subtitle">蘭嶼・Iraraley 朗島部落 — 2026 傳統夜曆與現行日曆對照</p>
+    <p class="subtitle">蘭嶼・Iraraley 朗島部落 — 傳統夜曆與現行日曆對照（2026–2027）</p>
   </header>
 
-  <nav class="month-nav">
-    <button id="prev" aria-label="上一月">‹</button>
-    <h2 id="month-title"></h2>
-    <button id="next" aria-label="下一月">›</button>
-  </nav>
+  <section id="year-picker" class="year-picker">
+    <h2>選擇年份</h2>
+    <div id="year-buttons"></div>
+  </section>
 
-  <p id="trad-spans" class="trad-spans"></p>
+  <div id="calendar-view" hidden>
+    <nav class="month-nav">
+      <button id="prev" aria-label="上一月">‹</button>
+      <h2 id="month-title"></h2>
+      <button id="next" aria-label="下一月">›</button>
+      <button id="back-to-years" class="back-link">↩ 換年份</button>
+    </nav>
 
-  <main>
-    <table class="calendar" aria-label="月曆">
-      <thead>
-        <tr><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr>
-      </thead>
-      <tbody id="grid"></tbody>
-    </table>
+    <p id="trad-spans" class="trad-spans"></p>
+    <p id="est-note" class="est-note" hidden></p>
 
-    <aside id="detail" class="detail" hidden></aside>
-  </main>
+    <main>
+      <table class="calendar" aria-label="月曆">
+        <thead>
+          <tr><th>日</th><th>一</th><th>二</th><th>三</th><th>四</th><th>五</th><th>六</th></tr>
+        </thead>
+        <tbody id="grid"></tbody>
+      </table>
+
+      <aside id="detail" class="detail" hidden></aside>
+    </main>
+  </div>
 
   <section class="about">
     <h3>關於夜曆</h3>
