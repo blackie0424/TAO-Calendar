@@ -196,3 +196,18 @@ footer { border-top: 1px solid #ddd8ca; padding-top: 0.8rem; font-size: 0.8rem; 
   border-radius: 6px;
   font: inherit;
 }
+
+/* Tao 夜曆標注：月份交替底色 + 每格「月份 第幾夜」 */
+.tao {
+  display: block;
+  font-size: 0.62rem;
+  color: var(--sea);
+  margin-top: 0.1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tao b { font-size: 0.78rem; }
+td.tao-odd { background: #f0f6f3; }
+td.tao-odd:hover, td.tao-even:hover { background: #e3eff2; }
+.calendar td.trad-start { box-shadow: inset 3px 0 0 var(--spring); }

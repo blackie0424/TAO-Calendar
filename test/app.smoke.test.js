@@ -46,6 +46,8 @@ describe('頁面冒煙', () => {
     const detail = document.getElementById('detail')
     expect(detail.hidden).toBe(false)
     expect(detail.textContent).toContain('潮')
+    expect(detail.textContent).toContain('夜曆：')
+    expect(detail.textContent).toContain('國曆：')
     document.getElementById('edit-day').click()
     expect(document.getElementById('edit-night')).not.toBeNull()
     expect(document.getElementById('edit-desc')).not.toBeNull()

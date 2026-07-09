@@ -56,6 +56,34 @@ export function buildMonthGrid(days, year, month) {
   return weeks
 }
 
+// 弦望在夜序中的固定位置（第 8、14、22 夜）；朔（🌑）是月尾但月長不定，不用於回推
+const ANCHOR_NIGHT = { '🌓': 8, '🌕': 14, '🌗': 22 }
+
+export function annotateTaoDays(days) {
+  const out = []
+  let run = []
+  const flush = (monthIndex) => {
+    // 資料起點落在月中時，序列不是從第 1 夜開始 — 用弦望錨點回推偏移
+    let offset = 0
+    if (monthIndex === 0) {
+      const a = run.findIndex((d) => d.moon in ANCHOR_NIGHT)
+      if (a >= 0) offset = ANCHOR_NIGHT[run[a].moon] - (a + 1)
+    }
+    run.forEach((d, i) => out.push({ ...d, taoDay: i + 1 + offset, taoMonthIndex: monthIndex }))
+    run = []
+  }
+  let monthIndex = 0
+  for (const d of days) {
+    if (run.length && run[0].traditionalMonth !== d.traditionalMonth) {
+      flush(monthIndex)
+      monthIndex += 1
+    }
+    run.push(d)
+  }
+  if (run.length) flush(monthIndex)
+  return out
+}
+
 export function monthStartDates(days) {
   const starts = new Set()
   let prev = null
