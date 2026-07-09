@@ -1,42 +1,6 @@
-// 月曆視圖與月相推算的純函式。
-// 資料只在朔、上弦、望、下弦四個錨點標了月相；其餘夜晚用錨點間
-// 線性內插（達悟夜名本身即依月相計日，內插誤差小於一夜）。
-
-const GLYPHS = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘']
-const ANCHOR_PHASE = { '🌑': 0, '🌓': 0.25, '🌕': 0.5, '🌗': 0.75 }
-const SYNODIC_DAYS = 29.53
-
-export function annotateMoonPhases(days) {
-  const anchors = []
-  days.forEach((d, i) => {
-    if (d.moon in ANCHOR_PHASE) anchors.push({ i, phase: ANCHOR_PHASE[d.moon] })
-  })
-
-  const phaseAt = (i) => {
-    if (!anchors.length) return null
-    let prev = null
-    let next = null
-    for (const a of anchors) {
-      if (a.i <= i) prev = a
-      if (a.i >= i && !next) next = a
-    }
-    if (prev && next && prev.i !== next.i) {
-      let span = next.phase - prev.phase
-      if (span <= 0) span += 1
-      return prev.phase + (span * (i - prev.i)) / (next.i - prev.i)
-    }
-    const base = prev ?? next
-    return base.phase + (i - base.i) / SYNODIC_DAYS
-  }
-
-  return days.map((d, i) => {
-    if (d.moon) return { ...d, moonGlyph: d.moon }
-    const phase = phaseAt(i)
-    if (phase === null) return { ...d, moonGlyph: null }
-    const idx = ((Math.round(phase * 8) % 8) + 8) % 8
-    return { ...d, moonGlyph: GLYPHS[idx] }
-  })
-}
+// 月曆視圖的純函式。
+// 月相只顯示資料中的朔、上弦、望、下弦錨點（🌑🌓🌕🌗）；
+// 曾有逐夜內插的 annotateMoonPhases，依 2026-07-09 決議移除（git 歷史可尋回）。
 
 export function buildMonthGrid(days, year, month) {
   const prefix = `${year}-${String(month).padStart(2, '0')}-`
