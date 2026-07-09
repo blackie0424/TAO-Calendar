@@ -162,7 +162,9 @@ footer { border-top: 1px solid #ddd8ca; padding-top: 0.8rem; font-size: 0.8rem; 
   cursor: pointer;
   font-size: 0.9rem;
   text-decoration: underline;
+  white-space: nowrap;
 }
+.toolbar .back-link { margin-right: auto; }
 
 .toolbar {
   display: flex;
