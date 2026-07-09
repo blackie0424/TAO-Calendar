@@ -134,7 +134,7 @@ function showDetail(d) {
     ${tideBlock}`
   document.getElementById('edit-day').onclick = () => showEditForm(d)
   el.hidden = false
-  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  el.scrollIntoView?.({ behavior: 'smooth', block: 'nearest' })
 }
 
 function showEditForm(d) {
