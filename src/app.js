@@ -1,4 +1,4 @@
-import { annotateMoonPhases, buildMonthGrid, traditionalMonthSpans, monthStartDates } from './lib/calendar.js'
+import { annotateMoonPhases, annotateTaoDays, buildMonthGrid, traditionalMonthSpans, monthStartDates } from './lib/calendar.js'
 import { mergeEdits, buildCsvRows, toCsv } from './lib/csv.js'
 import { getAllEdits, putEdit, deleteEdit } from './db.js'
 
@@ -13,7 +13,7 @@ async function main() {
   const files = await Promise.all(
     YEARS.map((y) => fetch(`data/${y}.json`).then((r) => r.json())),
   )
-  state.days = annotateMoonPhases(files.flatMap((f) => f.days))
+  state.days = annotateTaoDays(annotateMoonPhases(files.flatMap((f) => f.days)))
   for (const f of files) {
     if (f.note) state.notes[f.year] = f.note
     state.estimated[f.year] = Boolean(f.estimated)
@@ -88,11 +88,13 @@ function render() {
       const td = document.createElement('td')
       if (d) {
         td.className = TIDE_CLASS[d.tideState] ?? ''
+        td.classList.add(d.taoMonthIndex % 2 ? 'tao-odd' : 'tao-even')
         if (d.date === todayIso) td.classList.add('today')
         if (tradStarts.has(d.date)) td.classList.add('trad-start')
         td.innerHTML = `
           <span class="daynum">${Number(d.date.slice(8))}</span>
           <span class="moon">${d.moonGlyph ?? ''}</span>
+          <span class="tao">${d.traditionalMonth}<b> ${d.taoDay}</b></span>
           <span class="night">${d.nightNames.join(' | ')}</span>
           ${d.edited ? '<span class="edited-mark" title="有本機編輯">✎</span>' : ''}
           ${d.events.length ? '<span class="evt">•</span>' : ''}`
@@ -127,8 +129,9 @@ function showDetail(d) {
       ${d.estimated ? '<span class="badge est">推估</span>' : ''}
       ${d.edited ? '<span class="badge edited">已編輯</span>' : ''}
       <button id="edit-day" class="edit-btn">✎ 編輯</button></h3>
-    <p class="detail-night">${d.traditionalMonth} — <b>${d.nightNames.join(' | ')}</b>
-      <span class="moon-big">${d.moonGlyph ?? ''}</span></p>
+    <p class="detail-night">夜曆：<b>${d.traditionalMonth}</b> 第 <b>${d.taoDay}</b> 夜
+      — ${d.nightNames.join(' | ')} <span class="moon-big">${d.moonGlyph ?? ''}</span><br />
+      國曆：${d.date.replaceAll('-', '/')}（週${d.weekday}）</p>
     ${d.description ? `<p>${d.description}</p>` : ''}
     ${d.events.length ? `<p>行事曆：${d.events.join('、')}</p>` : ''}
     ${tideBlock}`
