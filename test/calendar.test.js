@@ -4,6 +4,7 @@ import {
   buildMonthGrid,
   traditionalMonthSpans,
   monthStartDates,
+  annotateTaoDays,
 } from '../src/lib/calendar.js'
 
 const day = (date, extra = {}) => ({
@@ -66,6 +67,37 @@ describe('buildMonthGrid', () => {
     const days = [day('2026-01-31'), day('2026-02-01')]
     const weeks = buildMonthGrid(days, 2026, 2)
     expect(weeks.flat().filter(Boolean)).toHaveLength(1)
+  })
+})
+
+describe('annotateTaoDays', () => {
+  it('每個傳統月份內從第 1 夜起算，換月歸零', () => {
+    const days = [
+      day('2026-01-17', { traditionalMonth: 'Kaowan' }),
+      day('2026-01-18', { traditionalMonth: 'Kaowan' }),
+      day('2026-01-19', { traditionalMonth: 'Kasyaman' }),
+      day('2026-01-20', { traditionalMonth: 'Kasyaman' }),
+    ]
+    const out = annotateTaoDays(days)
+    expect(out.map((d) => d.taoDay)).toEqual([1, 2, 1, 2])
+  })
+
+  it('資料起點落在月中時，用弦望錨點回推第幾夜（2026-01-02 是滿月＝第 14 夜）', () => {
+    const days = [
+      day('2026-01-01', { traditionalMonth: 'Kaowan' }),
+      day('2026-01-02', { traditionalMonth: 'Kaowan', moon: '🌕' }),
+      day('2026-01-03', { traditionalMonth: 'Kaowan' }),
+    ]
+    const out = annotateTaoDays(days)
+    expect(out.map((d) => d.taoDay)).toEqual([13, 14, 15])
+  })
+
+  it('標注月份序號供介面區分相鄰月份', () => {
+    const days = [
+      day('2026-01-18', { traditionalMonth: 'Kaowan' }),
+      day('2026-01-19', { traditionalMonth: 'Kasyaman' }),
+    ]
+    expect(annotateTaoDays(days).map((d) => d.taoMonthIndex)).toEqual([0, 1])
   })
 })
 
