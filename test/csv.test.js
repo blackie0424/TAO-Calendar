@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { mergeEdits, buildCsvRows, toCsv } from '../src/lib/csv.js'
+import { mergeEdits, buildCsvRows, toCsv, completeTaoYear } from '../src/lib/csv.js'
 
 const day = (date, extra = {}) => ({
   date,
@@ -57,6 +57,32 @@ describe('buildCsvRows', () => {
     ])
     expect(rows[1][3]).toBe('Manowjia savonot | Kabohen')
     expect(rows[1][7]).toBe('是')
+  })
+})
+
+describe('completeTaoYear', () => {
+  // 夜曆月份跨國曆年：匯出範圍前後延伸到完整的夜曆月份
+  const days = [
+    day('2026-12-08', { traditionalMonth: 'Kapitoan' }),
+    day('2026-12-09', { traditionalMonth: 'Kaowan' }),
+    day('2026-12-31', { traditionalMonth: 'Kaowan' }),
+    day('2027-01-07', { traditionalMonth: 'Kaowan' }),
+    day('2027-01-08', { traditionalMonth: 'Kasyaman' }),
+    day('2027-12-31', { traditionalMonth: 'Kasyaman' }),
+  ]
+
+  it('尾端延伸：2026 匯出包含跨年的 Kaowan 到 1/7，不含 Kasyaman', () => {
+    const out = completeTaoYear(days, 2026)
+    expect(out[out.length - 1].date).toBe('2027-01-07')
+    expect(out.some((d) => d.traditionalMonth === 'Kasyaman')).toBe(false)
+    expect(out[0].date).toBe('2026-12-08') // 資料起點在年內，從資料起點開始
+  })
+
+  it('前端回溯：2027 匯出從 Kaowan 月首 2026-12-09 開始', () => {
+    const out = completeTaoYear(days, 2027)
+    expect(out[0].date).toBe('2026-12-09')
+    expect(out.some((d) => d.traditionalMonth === 'Kapitoan')).toBe(false)
+    expect(out[out.length - 1].date).toBe('2027-12-31') // 資料到此為止，就到此為止
   })
 })
 
