@@ -1,5 +1,5 @@
 import { annotateMoonPhases, annotateTaoDays, buildMonthGrid, traditionalMonthSpans, monthStartDates } from './lib/calendar.js'
-import { mergeEdits, buildCsvRows, toCsv } from './lib/csv.js'
+import { mergeEdits, buildCsvRows, toCsv, completeTaoYear } from './lib/csv.js'
 import { getAllEdits, putEdit, deleteEdit } from './db.js'
 
 const TIDE_CLASS = { 大潮: 'tide-spring', 中潮: 'tide-mid', 小潮: 'tide-neap' }
@@ -87,8 +87,7 @@ function render() {
     for (const d of week) {
       const td = document.createElement('td')
       if (d) {
-        td.className = TIDE_CLASS[d.tideState] ?? ''
-        td.classList.add(d.taoMonthIndex % 2 ? 'tao-odd' : 'tao-even')
+        td.className = d.taoMonthIndex % 2 ? 'tao-odd' : 'tao-even'
         if (d.date === todayIso) td.classList.add('today')
         if (tradStarts.has(d.date)) td.classList.add('trad-start')
         td.innerHTML = `
@@ -183,7 +182,7 @@ function reopenDetail(date) {
 }
 
 function exportCsv() {
-  const days = mergedDays().filter((d) => d.date.startsWith(`${state.year}-`))
+  const days = completeTaoYear(mergedDays(), state.year)
   const blob = new Blob([toCsv(buildCsvRows(days))], { type: 'text/csv;charset=utf-8' })
   const a = document.createElement('a')
   a.href = URL.createObjectURL(blob)

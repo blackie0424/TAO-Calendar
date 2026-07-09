@@ -79,9 +79,7 @@ header .en { font-size: 0.6em; font-weight: 400; color: #6b7f8a; }
 td.today { outline: 2px solid var(--sea); outline-offset: -2px; }
 td.trad-start .daynum::after { content: " 月首"; font-size: 0.62rem; color: var(--spring); }
 
-td.tide-spring { border-bottom: 3px solid var(--spring); }
-td.tide-mid { border-bottom: 3px solid var(--mid); }
-td.tide-neap { border-bottom: 3px solid var(--neap); }
+/* 格子不再用潮汐三色邊條 — 顏色只用來區分夜曆月份（見圖例）；潮水狀態在單日詳情顯示 */
 
 .detail {
   margin-top: 1rem;
@@ -211,3 +209,27 @@ footer { border-top: 1px solid #ddd8ca; padding-top: 0.8rem; font-size: 0.8rem; 
 td.tao-odd { background: #f0f6f3; }
 td.tao-odd:hover, td.tao-even:hover { background: #e3eff2; }
 .calendar td.trad-start { box-shadow: inset 3px 0 0 var(--spring); }
+
+/* 圖例 */
+.legend {
+  font-size: 0.8rem;
+  color: #55676f;
+  text-align: right;
+  margin: 0.2rem 0 0.5rem;
+}
+.legend-swatch {
+  display: inline-block;
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 1px solid #e3e0d6;
+  vertical-align: -0.15rem;
+}
+.swatch-a { background: white; }
+.swatch-b { background: #f0f6f3; }
+.legend-bar {
+  display: inline-block;
+  width: 0.25rem;
+  height: 0.9rem;
+  background: var(--spring);
+  vertical-align: -0.15rem;
+}
