@@ -9,6 +9,7 @@
     "convert": "node scripts/convert.mjs"
   },
   "devDependencies": {
+    "jsdom": "^29.1.1",
     "vitest": "^3.0.0",
     "xlsx": "^0.18.5"
   }

@@ -3,6 +3,7 @@ import {
   annotateMoonPhases,
   buildMonthGrid,
   traditionalMonthSpans,
+  monthStartDates,
 } from '../src/lib/calendar.js'
 
 const day = (date, extra = {}) => ({
@@ -65,6 +66,23 @@ describe('buildMonthGrid', () => {
     const days = [day('2026-01-31'), day('2026-02-01')]
     const weeks = buildMonthGrid(days, 2026, 2)
     expect(weeks.flat().filter(Boolean)).toHaveLength(1)
+  })
+})
+
+describe('monthStartDates', () => {
+  it('回傳每個傳統月份起始日的集合（含資料起點），以日期比對不依賴物件同一性', () => {
+    const days = [
+      day('2026-01-18', { traditionalMonth: 'Kaowan' }),
+      day('2026-01-19', { traditionalMonth: 'Kasyaman' }),
+      day('2026-01-20', { traditionalMonth: 'Kasyaman' }),
+    ]
+    const starts = monthStartDates(days)
+    expect(starts.has('2026-01-18')).toBe(true)
+    expect(starts.has('2026-01-19')).toBe(true)
+    expect(starts.has('2026-01-20')).toBe(false)
+    // 複製出的新物件（如 mergeEdits 的輸出）也要得到相同結果
+    const cloned = days.map((d) => ({ ...d }))
+    expect(monthStartDates(cloned)).toEqual(starts)
   })
 })
 

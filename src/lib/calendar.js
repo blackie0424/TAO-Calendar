@@ -56,6 +56,16 @@ export function buildMonthGrid(days, year, month) {
   return weeks
 }
 
+export function monthStartDates(days) {
+  const starts = new Set()
+  let prev = null
+  for (const d of days) {
+    if (d.traditionalMonth !== prev) starts.add(d.date)
+    prev = d.traditionalMonth
+  }
+  return starts
+}
+
 export function traditionalMonthSpans(days) {
   const spans = []
   for (const d of days) {
