@@ -1,4 +1,4 @@
-import { annotateMoonPhases, buildMonthGrid, traditionalMonthSpans } from './lib/calendar.js'
+import { annotateMoonPhases, buildMonthGrid, traditionalMonthSpans, monthStartDates } from './lib/calendar.js'
 import { mergeEdits, buildCsvRows, toCsv } from './lib/csv.js'
 import { getAllEdits, putEdit, deleteEdit } from './db.js'
 
@@ -64,6 +64,7 @@ function shiftMonth(delta) {
 function render() {
   const { year, month } = state
   const days = mergedDays()
+  const tradStarts = monthStartDates(days)
   document.getElementById('month-title').textContent = `${year} 年 ${month} 月`
   document.getElementById('prev').disabled = month === 1
   document.getElementById('next').disabled = month === 12
@@ -88,7 +89,7 @@ function render() {
       if (d) {
         td.className = TIDE_CLASS[d.tideState] ?? ''
         if (d.date === todayIso) td.classList.add('today')
-        if (isMonthStart(d)) td.classList.add('trad-start')
+        if (tradStarts.has(d.date)) td.classList.add('trad-start')
         td.innerHTML = `
           <span class="daynum">${Number(d.date.slice(8))}</span>
           <span class="moon">${d.moonGlyph ?? ''}</span>
@@ -105,11 +106,6 @@ function render() {
 
   const count = Object.keys(state.edits).length
   document.getElementById('edit-count').textContent = count ? `本機編輯 ${count} 筆` : ''
-}
-
-function isMonthStart(d) {
-  const idx = state.days.indexOf(d)
-  return idx === 0 || state.days[idx - 1].traditionalMonth !== d.traditionalMonth
 }
 
 function showDetail(d) {
